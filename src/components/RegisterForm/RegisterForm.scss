@@ -1,0 +1,43 @@
+.register-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+
+
+    h1{
+        font-size: 35px;
+        margin-bottom: 16px;
+        letter-spacing: 5px;
+    }
+    
+    .register-form__input-container {
+        font-size: 20px;
+        margin: 5px 0;
+        padding: 15px 50px;
+
+
+        h3 {
+
+
+        }
+
+        input {
+            border: none;
+            background-color: transparent;
+            border-bottom: 1px solid #fff;
+            color: #fff;
+            font-size: 20px;
+            padding: 5px 0;
+            margin: 5px 0;
+
+
+            &:focus {
+                outline: none;
+            }
+
+        }
+
+    }
+}

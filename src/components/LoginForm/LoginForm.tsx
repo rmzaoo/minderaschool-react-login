@@ -23,13 +23,13 @@ const LoginForm = () => {
     });
 
 
-    console.log("teste", res);
     if (res.error) {
       alert(res.message);
       return;
     }
 
     alert("Login Successful");
+    localStorage.setItem("user", JSON.stringify(res.user));
     navigate("/");
   };
 

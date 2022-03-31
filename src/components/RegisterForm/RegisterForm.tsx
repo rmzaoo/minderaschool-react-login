@@ -33,6 +33,7 @@ const RegisterForm = () => {
     }
 
     alert("Register Successful");
+    localStorage.setItem("user", JSON.stringify(res.user));
     navigate("/");
   };
 

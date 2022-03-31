@@ -14,11 +14,14 @@ const RegisterForm = () => {
   const registerUser = async () => {
     let res = await fetch("http://localhost:3094/users/", {
       method: "POST",
+      headers: {
+        'Content-Type':'application/json'
+      },
       body: JSON.stringify({
-        username: username,
-        email: email,
-        password: password,
-        name: name,
+        username,
+        email,
+        password,
+        name,
       }),
     }).then(function (resp) {
       return resp.json();

@@ -22,6 +22,8 @@ const LoginForm = () => {
       return resp.json();
     });
 
+
+    console.log("teste", res);
     if (res.error) {
       alert(res.message);
       return;
@@ -63,7 +65,7 @@ const LoginForm = () => {
         />
       </div>
 
-      <PrimaryButton onClick={loginUser}>Register</PrimaryButton>
+      <PrimaryButton onClick={loginUser}>Login</PrimaryButton>
     </div>
   );
 };

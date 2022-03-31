@@ -45,7 +45,8 @@ app.post("/users", async (req, res) => {
   });
 
   console.info(`Created user with id ${user.id}`);
-  res.status(200).json({ error: false, message: "User created", user });
+  const { password: _, ...userWithoutPassword } = user;
+  res.status(200).json({ error: false, message: "User created", userWithoutPassword });
 });
 
 app.post("/users/login", async (req, res) => {
@@ -58,7 +59,7 @@ app.post("/users/login", async (req, res) => {
     });
   }
 
-  const user = await prisma.users.findFirst({
+  let user = await prisma.users.findFirst({
     where: {
       username,
       password
@@ -71,6 +72,11 @@ app.post("/users/login", async (req, res) => {
       message: "Username or password is incorrect",
     });
   }
+
+  console.info(`User with id ${user.id} logged in`);
+
+  const { password: _, ...userWithoutPassword } = user;
+  res.status(200).json({ error: false, message: "User logged in", user: userWithoutPassword});
 });
 
 const server = app.listen(3094, () =>

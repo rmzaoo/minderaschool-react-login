@@ -13,7 +13,7 @@ const LoginForm = () => {
     let res = await fetch("http://localhost:3094/users/login", {
       method: "POST",
       headers: {
-        'Content-Type':'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username: username,
@@ -22,7 +22,6 @@ const LoginForm = () => {
     }).then(function (resp) {
       return resp.json();
     });
-
 
     if (res.error) {
       alert(res.message);
@@ -35,7 +34,10 @@ const LoginForm = () => {
   };
 
   useEffect(() => {
-    checkLogin() ? navigate("/") : null;
+    if (checkLogin()) {
+      alert("you are already logged in");
+      navigate("/");
+    }
   }, []);
 
   return (

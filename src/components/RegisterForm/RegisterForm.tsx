@@ -16,7 +16,7 @@ const RegisterForm = () => {
     let res = await fetch("http://localhost:3094/users/", {
       method: "POST",
       headers: {
-        'Content-Type':'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username,
@@ -38,9 +38,11 @@ const RegisterForm = () => {
     navigate("/");
   };
 
-
   useEffect(() => {
-    checkLogin() ? navigate("/") : null;
+    if (checkLogin()) {
+      alert("you are already logged in");
+      navigate("/");
+    }
   }, []);
 
   return (

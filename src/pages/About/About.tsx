@@ -1,12 +1,11 @@
 import React from "react";
-import NavBar from "../../components/NavBar/NavBar";
+import './About.scss'
 
 const About = () => {
   return (
-    <div>
-      <NavBar />
-      <main className="content"></main>
-    </div>
+      <div className="about-content">
+        texto e imagem
+      </div>
   );
 };
 

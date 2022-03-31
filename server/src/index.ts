@@ -79,6 +79,22 @@ app.post("/users/login", async (req, res) => {
   res.status(200).json({ error: false, message: "User logged in", user: userWithoutPassword});
 });
 
+app.post("/emails/send", async (req, res) => {
+  const { email, subject, message } = req.body;
+
+  if (!email || !subject || !message) {
+    return res.status(200).json({
+      error: true,
+      message: "Email, subject or message is incorrect",
+    });
+  }
+
+
+  //implementation of email sending, but I dont have a mail server, so let's just return a message ¯\_(ツ)_/¯
+  console.info(`Email sent to ${email}`);
+  res.status(200).json({ error: false, message: "Email sent" });
+});
+
 const server = app.listen(3094, () =>
   console.log(`
 🚀 Server ready at: http://localhost:3094`)

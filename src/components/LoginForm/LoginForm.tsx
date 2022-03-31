@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InputForm from "../InputForm/InputForm";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
+import checkLogin from "../../utils/checkLogin";
 
 const LoginForm = () => {
   const [username, setUsername] = React.useState("");
@@ -33,17 +34,8 @@ const LoginForm = () => {
     navigate("/");
   };
 
-  const checkLogin = () => {
-    let user = localStorage.getItem("user");
-
-    if (user && JSON.parse(user).id) {
-      alert("You are already logged in");
-      navigate("/");
-    }
-  };
-
   useEffect(() => {
-    checkLogin();
+    checkLogin() ? navigate("/") : null;
   }, []);
 
   return (

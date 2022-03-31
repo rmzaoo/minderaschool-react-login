@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import checkLogin from "../../utils/checkLogin";
 import InputForm from "../InputForm/InputForm";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
 import "./RegisterForm.scss";
@@ -37,17 +38,9 @@ const RegisterForm = () => {
     navigate("/");
   };
 
-  const checkLogin = () => {
-    let user = localStorage.getItem("user");
-
-    if (user && JSON.parse(user).id) {
-      alert("You are already logged in");
-      navigate("/");
-    }
-  };
 
   useEffect(() => {
-    checkLogin();
+    checkLogin() ? navigate("/") : null;
   }, []);
 
   return (

@@ -21,7 +21,6 @@ const About = () => {
           <li>300 g de manteiga</li>
           <li>400 g de bolachas Maria + 50g de bolachas Maria moídas</li>
           <li>2 gemas</li>
-          <li>2 gemas</li>
           <li>3 colheres (sopa) de café forte frio</li>
           <li>Café para demolhar</li>
         </ul>

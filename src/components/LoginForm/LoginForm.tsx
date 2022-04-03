@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InputForm from "../InputForm/InputForm";
 import PrimaryButton from "../PrimaryButton/PrimaryButton";
@@ -29,15 +29,20 @@ const LoginForm = () => {
     }
 
     alert("Login Successful");
-    localStorage.setItem("user", JSON.stringify(res.user));
+    localStorage.setItem("user", res.user);
     navigate("/");
   };
 
-  useEffect(() => {
-    if (checkLogin()) {
-      alert("you are already logged in");
-      navigate("/");
-    }
+  useLayoutEffect(() => {
+    const checkLoginStatus = async () => {
+      let res = await checkLogin();
+      if (res) {
+        navigate("/");
+        alert("You are already logged in");
+      }
+    };
+
+    checkLoginStatus();
   }, []);
 
   return (

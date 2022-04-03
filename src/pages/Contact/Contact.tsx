@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ContactForm from "../../components/ContactForm/ContactForm";
 import checkLogin from "../../utils/checkLogin";
@@ -7,10 +7,16 @@ import './Contact.scss';
 const Contact = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!checkLogin()) {
-      navigate("/login");
-    }
+  useLayoutEffect(() => {
+    const checkLoginStatus = async () => {
+      let res = await checkLogin();
+      if (!res) {
+        navigate("/");
+        alert("You are not logged in");
+      }
+    };
+
+    checkLoginStatus();
   }, []);
   return (
     <div className="contact-content">

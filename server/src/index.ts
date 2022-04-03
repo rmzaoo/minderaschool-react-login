@@ -1,5 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import { verify } from "crypto";
 import express from "express";
+import jwt from "jsonwebtoken";
 
 var cors = require("cors");
 const prisma = new PrismaClient();
@@ -17,6 +19,7 @@ app.get("/", async (req, res) => {
 /** endpoints
  * POST /users/ - create user and return user  | feito
  * GET /users/login - login user and return user
+ * POST /emails/send - send email contact
  */
 
 app.post("/users", async (req, res) => {
@@ -78,10 +81,25 @@ app.post("/users/login", async (req, res) => {
   console.info(`User with id ${user.id} logged in`);
 
   const { password: _, ...userWithoutPassword } = user;
+
+  jwt.sign(
+    { user: userWithoutPassword },
+    "secretkey",
+    (err: any, token: any) => {
+      res.status(200).json({
+        error: false,
+        message: "User logged in",
+        user: token,
+      });
+    }
+  );
+});
+
+app.get("/users/checklogin", verifyToken, async (req, res) => {
   res.status(200).json({
     error: false,
     message: "User logged in",
-    user: userWithoutPassword,
+    user: req.body.token
   });
 });
 
@@ -99,6 +117,30 @@ app.post("/emails/send", async (req, res) => {
   console.info(`Email sent to ${email}`);
   res.status(200).json({ error: false, message: "Email sent" });
 });
+
+function verifyToken(req: any, res: any, next: any) {
+  const bearerHeader = req.headers["authorization"];
+  if (typeof bearerHeader !== "undefined") {
+    const bearer = bearerHeader.split(" ");
+    const bearerToken = bearer[1];
+    req.body.token = bearerToken;
+    jwt.verify(bearerToken, "secretkey", (err: any, decoded: any) => {
+      if (err) {
+        return res.status(200).json({
+          error: true,
+          message: "User not logged in2",
+        });
+      } else {
+        next();
+      }
+    });
+  } else {
+    return res.status(200).json({
+      error: true,
+      message: "User not logged in",
+    });
+  }
+}
 
 const server = app.listen(3094, () =>
   console.log(`

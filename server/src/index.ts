@@ -46,7 +46,9 @@ app.post("/users", async (req, res) => {
 
   console.info(`Created user with id ${user.id}`);
   const { password: _, ...userWithoutPassword } = user;
-  res.status(200).json({ error: false, message: "User created", userWithoutPassword });
+  res
+    .status(200)
+    .json({ error: false, message: "User created", userWithoutPassword });
 });
 
 app.post("/users/login", async (req, res) => {
@@ -62,7 +64,7 @@ app.post("/users/login", async (req, res) => {
   let user = await prisma.users.findFirst({
     where: {
       username,
-      password
+      password,
     },
   });
 
@@ -76,7 +78,11 @@ app.post("/users/login", async (req, res) => {
   console.info(`User with id ${user.id} logged in`);
 
   const { password: _, ...userWithoutPassword } = user;
-  res.status(200).json({ error: false, message: "User logged in", user: userWithoutPassword});
+  res.status(200).json({
+    error: false,
+    message: "User logged in",
+    user: userWithoutPassword,
+  });
 });
 
 app.post("/emails/send", async (req, res) => {
@@ -88,7 +94,6 @@ app.post("/emails/send", async (req, res) => {
       message: "Email, subject or message is incorrect",
     });
   }
-
 
   //implementation of email sending, but I dont have a mail server, so let's just return a message ¯\_(ツ)_/¯
   console.info(`Email sent to ${email}`);

@@ -1,5 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import { verify } from "crypto";
+import { PrismaClient } from "@prisma/client";
 import express from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";

@@ -138,7 +138,7 @@ function verifyToken(req: any, res: any, next: any) {
       if (err) {
         return res.status(200).json({
           error: true,
-          message: "User not logged in2",
+          message: "User not logged in",
         });
       } else {
         next();

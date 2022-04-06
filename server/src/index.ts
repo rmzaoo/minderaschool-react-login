@@ -2,6 +2,8 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { verify } from "crypto";
 import express from "express";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+const saltRounds = 10;
 
 var cors = require("cors");
 const prisma = new PrismaClient();
@@ -38,11 +40,13 @@ app.post("/users", async (req, res) => {
     });
   }
 
+  const hash = bcrypt.hashSync(password, saltRounds);
+
   const user = await prisma.users.create({
     data: {
       username,
       email,
-      password,
+      password: hash,
       name,
     },
   });
@@ -66,8 +70,7 @@ app.post("/users/login", async (req, res) => {
 
   let user = await prisma.users.findFirst({
     where: {
-      username,
-      password,
+      username
     },
   });
 
@@ -78,9 +81,16 @@ app.post("/users/login", async (req, res) => {
     });
   }
 
-  console.info(`User with id ${user.id} logged in`);
+  const verifyPassword= bcrypt.compareSync(password, user.password); 
 
   const { password: _, ...userWithoutPassword } = user;
+
+  if (!verifyPassword) {
+    return res.status(200).json({
+      error: true,
+      message: "Username or password is incorrect",
+    });
+  }
 
   jwt.sign(
     { user: userWithoutPassword },
@@ -99,7 +109,7 @@ app.get("/users/checklogin", verifyToken, async (req, res) => {
   res.status(200).json({
     error: false,
     message: "User logged in",
-    user: req.body.token
+    user: req.body.token,
   });
 });
 
